@@ -31,5 +31,11 @@ namespace Greeting.Test
             var result = _sut.Greet("Jill", "Jane");
             Assert.Equal("Hello, Jill and Jane.", result);
         }
+            [Fact]
+        public void MoreNamesGreet()
+        {
+            var result = _sut.Greet("Amy", "Brian", "Charlotte");
+            Assert.Equal("Hello, Amy, Brian, and Charlotte.", result);
+        }
     }
 }
