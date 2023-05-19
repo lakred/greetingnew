@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Greeting
 {
@@ -19,32 +20,169 @@ namespace Greeting
                 return names[0] == names[0].ToUpper()
                     ? $"HELLO, {names[0]}!"
                     : $"Hello, {names[0]}.";
-            }else if (names.Length == 2)
+            }else 
             {
-                return $"Hello, {names[0]} and {names[1]}.";
-            }
-            else
-            {
-                StringBuilder greet =new StringBuilder();
-                greet.Append("Hello, ");
 
-                for (int i  = 0; i < names.Length; i++)
+
+
+
+                bool IsComma = false;
+                List<string> word=new List<string>();
+
+
+                foreach (string name in names)
                 {
-                    
-                    if (i==names.Length-1)
+                    if (name.Contains(","))
                     {
-                        greet.Append("and ");
-                        greet.Append(names[i]);
-                        greet.Append(".");
+                        IsComma = true;
+                        List<string> words =name.Split(",").ToList();
+                        word.AddRange(words);
+
                     }
                     else
                     {
-                        greet.Append(names[i]);
-                        greet.Append(", ");
+                        word.Add(name);
                     }
-                   
                 }
-                return greet.ToString();
+               
+
+                if (!IsComma&&names.Length == 2)
+                {
+                    return $"Hello, {names[0]} and {names[1]}.";
+                }
+                else
+                {
+                }
+
+                string[] namesWord = word.ToArray();
+
+
+
+
+
+
+
+
+                bool allLower = true ;
+                foreach (string name in word)
+                {
+                    if (name == name.ToUpper())
+                    {
+                        allLower= false;
+                    }
+
+                }
+                if (allLower)
+                {
+                    StringBuilder greet = new StringBuilder();
+                    greet.Append("Hello, ");
+
+                    for (int i = 0; i < namesWord.Length; i++)
+                    {
+
+                        if (i == namesWord.Length - 1)
+                        {
+                            greet.Append("and ");
+                            greet.Append(namesWord[i]);
+                            greet.Append(".");
+                        }
+                        else
+                        {
+                            greet.Append(namesWord[i]);
+                            greet.Append(", ");
+                        }
+                    }
+                    return greet.ToString();
+                }
+                else
+                {
+                    int UppesCount=0 ;
+                    foreach (string name in namesWord)
+                    {
+                        if (name == name.ToUpper())
+                        {
+                            UppesCount++;
+                        }
+
+                    }
+
+                    string[] namesUpper = new string[UppesCount];
+                    int m = 0;
+
+                    for (int i=0; i < namesWord.Length; i++)
+                    {
+                        if (names[i] == names[i].ToUpper())
+                        {
+                            namesUpper[m] = names[i];
+                            m++;
+                        }
+                    }
+                    string[] namesLower = new string[names.Length-UppesCount];
+                    int n = 0;
+                    for (int i = 0; i < names.Length; i++)
+                    {
+                        if (names[i] != names[i].ToUpper())
+                        {
+                           
+                            namesLower[n] = names[i];
+                            n++;
+                        }
+                    }
+                    StringBuilder greet = new StringBuilder();
+                    greet.Append("Hello, ");
+                    for (int i = 0; i < namesLower.Length; i++)
+                    {
+
+                        if (i == namesLower.Length - 1)
+                        {
+                            greet.Append("and ");
+                            greet.Append(namesLower[i]);
+                            greet.Append(".");
+                        }
+                        else
+                        {
+                            greet.Append(namesLower[i]);
+                            if (namesLower.Length > 2)
+                            {
+                                greet.Append(", ");
+                            }
+                            else
+                            {
+                                greet.Append(" ");
+                            }
+                                
+                        }
+                    }
+                    greet.Append(" AND ");
+                    greet.Append("HELLO ");
+                    for (int i = 0; i < namesUpper.Length; i++)
+                    {
+                        
+                        if (i == namesUpper.Length-1&&i>=1)
+                        {
+                            greet.Append("AND ");
+                            greet.Append(namesUpper[i]);
+
+
+                        }
+                        else if (i == namesUpper.Length - 1 && i < 1)
+                        {
+                            greet.Append(namesUpper[i]);
+                        }
+                        else
+                        {
+                            
+                            greet.Append(namesUpper[i]);
+                            greet.Append(", ");
+                        }
+                    }
+                    greet.Append("!");
+                    return greet.ToString();
+
+
+                }
+                
+
             }
 
 
