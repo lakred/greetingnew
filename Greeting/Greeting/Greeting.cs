@@ -11,6 +11,7 @@ namespace Greeting
 {
     public class Greeting 
     {
+
         public string Greet(params string[] names)
         {
             if (names == null)
@@ -24,67 +25,33 @@ namespace Greeting
                     : $"Hello, {names[0]}.";
             }else 
             {
-                bool IsComma = false;
-                bool IsApice = false;
-                List<string> word=new List<string>();
+                bool isComma = names.Any(name => name.Contains(","));
+                bool isApice = names.Any(name => name.Contains("\""));
+                List<string> word = new List<string>();
                 foreach (string name in names)
                 {
-                    if (name.Contains(",")&&!name.Contains("\""))
-                    {
-                        IsComma = true;
-                        List<string> words =name.Split(",").ToList();
-                        word.AddRange(words);
-
-                    }else if (name.Contains("\""))
-                    {
-                        IsComma = true;
-                        IsApice = true;
-                        word.Add(name);
-                    }
-                    else
-                    {
-                       
-                        word.Add(name);
-                    }
+                    word.AddRange(isComma && !isApice ? name.Split(',').ToList() : new List<string> { name });
                 }
-                if (!IsComma&&names.Length == 2)
+
+                if (!isComma && names.Length == 2)
                 {
                     return $"Hello, {names[0]} and {names[1]}.";
                 }
-                else
-                {
-                }
 
-                string apice = "\"";
                 string[] namesWord = word.ToArray();
-                for(int i=0; i < namesWord.Length; i++)
+
+                namesWord = namesWord.Select(name =>
                 {
-                    if (namesWord[i].Contains(apice))
-                    {
-                        namesWord[i] = Regex.Replace(namesWord[i], apice, "");
-                    }
-                    else
-                    {
-                        namesWord[i] = Regex.Replace(namesWord[i], @"\s", "");
-                    }
-                     
-                    
+                    return (name.Contains("\"")) ? Regex.Replace(name, "\"", "") : Regex.Replace(name, @"\s", "");
                 }
+                ).ToArray();
 
 
 
 
 
-                bool allLower = true ;
-                foreach (string name in word)
-                {
-                    if (name == name.ToUpper())
-                    {
-                        allLower= false;
-                    }
-
-                }
-                if (allLower)
+                bool hasUpper = word.Any(name =>name==name.ToUpper());
+                if (!hasUpper)
                 {
                     StringBuilder greet = new StringBuilder();
                     greet.Append("Hello, ");
@@ -100,18 +67,8 @@ namespace Greeting
                         }
                         else if (i == namesWord.Length - 2)
                         {
-                            
                             greet.Append(namesWord[i]);
-                            if (IsApice)
-                            {
-                                greet.Append(" ");
-                            }
-                            else
-                            {
-                                greet.Append(", ");
-                            }
-                           
-
+                            greet.Append(isApice ? " " : ", ");
                         }
                         else
                         {
@@ -123,17 +80,8 @@ namespace Greeting
                 }
                 else
                 {
-                    int UppesCount=0 ;
-                    foreach (string name in namesWord)
-                    {
-                        if (name == name.ToUpper())
-                        {
-                            UppesCount++;
-                        }
-
-                    }
-
-                    string[] namesUpper = new string[UppesCount];
+                    int CountUpper = namesWord.Count(name => name == name.ToUpper());
+                    string[] namesUpper = new string[CountUpper];
                     int m = 0;
 
                     for (int i=0; i < namesWord.Length; i++)
@@ -144,7 +92,7 @@ namespace Greeting
                             m++;
                         }
                     }
-                    string[] namesLower = new string[namesWord.Length-UppesCount];
+                    string[] namesLower = new string[namesWord.Length- CountUpper];
                     int n = 0;
                     for (int i = 0; i < namesWord.Length; i++)
                     {
@@ -169,28 +117,16 @@ namespace Greeting
                         else
                         {
                             greet.Append(namesLower[i]);
-                            if (namesLower.Length > 2)
-                            {
-                                greet.Append(", ");
-                            }
-                            else
-                            {
-                                greet.Append(" ");
-                            }
-                                
-                        }
+                            greet.Append((namesLower.Length > 2)? ", ": " ");
+                         }
                     }
-                    greet.Append(" AND ");
-                    greet.Append("HELLO ");
+                    greet.Append(" AND HELLO ");
                     for (int i = 0; i < namesUpper.Length; i++)
                     {
-                        
                         if (i == namesUpper.Length-1&&i>=1)
                         {
                             greet.Append("AND ");
                             greet.Append(namesUpper[i]);
-
-
                         }
                         else if (i == namesUpper.Length - 1 && i < 1)
                         {
