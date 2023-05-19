@@ -1,0 +1,39 @@
+﻿<Properties StartupConfiguration="{6958B455-DF20-499B-BF0D-B41BD42E2034}|Default">
+  <MonoDevelop.Ide.ItemProperties.Greeting PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Greeting/Greeting.cs">
+    <Files>
+      <File FileName="Greeting/Program.cs" Line="3" Column="1" />
+      <File FileName="Greeting/Greeting.cs" Line="25" Column="14" />
+      <File FileName="Greeting.Test/GreetingTest.cs" Line="8" Column="35" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Greeting" expanded="True">
+            <Node name="Greeting" expanded="True">
+              <Node name="Greeting.cs" selected="True" />
+            </Node>
+            <Node name="Greeting.Test" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Greeting" expanded="True">
+            <Node name="Greeting.Test" expanded="True">
+              <Node name="Greeting.Test" expanded="True">
+                <Node name="GreetingTest" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+</Properties>
