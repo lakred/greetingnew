@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
+
 
 namespace Greeting
 {
-    public class Greeting
+    public class Greeting 
     {
         public string Greet(params string[] names)
         {
@@ -22,30 +24,29 @@ namespace Greeting
                     : $"Hello, {names[0]}.";
             }else 
             {
-
-
-
-
                 bool IsComma = false;
+                bool IsApice = false;
                 List<string> word=new List<string>();
-
-
                 foreach (string name in names)
                 {
-                    if (name.Contains(","))
+                    if (name.Contains(",")&&!name.Contains("\""))
                     {
                         IsComma = true;
                         List<string> words =name.Split(",").ToList();
                         word.AddRange(words);
 
+                    }else if (name.Contains("\""))
+                    {
+                        IsComma = true;
+                        IsApice = true;
+                        word.Add(name);
                     }
                     else
                     {
+                       
                         word.Add(name);
                     }
                 }
-               
-
                 if (!IsComma&&names.Length == 2)
                 {
                     return $"Hello, {names[0]} and {names[1]}.";
@@ -54,10 +55,21 @@ namespace Greeting
                 {
                 }
 
+                string apice = "\"";
                 string[] namesWord = word.ToArray();
-
-
-
+                for(int i=0; i < namesWord.Length; i++)
+                {
+                    if (namesWord[i].Contains(apice))
+                    {
+                        namesWord[i] = Regex.Replace(namesWord[i], apice, "");
+                    }
+                    else
+                    {
+                        namesWord[i] = Regex.Replace(namesWord[i], @"\s", "");
+                    }
+                     
+                    
+                }
 
 
 
@@ -86,6 +98,21 @@ namespace Greeting
                             greet.Append(namesWord[i]);
                             greet.Append(".");
                         }
+                        else if (i == namesWord.Length - 2)
+                        {
+                            
+                            greet.Append(namesWord[i]);
+                            if (IsApice)
+                            {
+                                greet.Append(" ");
+                            }
+                            else
+                            {
+                                greet.Append(", ");
+                            }
+                           
+
+                        }
                         else
                         {
                             greet.Append(namesWord[i]);
@@ -111,20 +138,20 @@ namespace Greeting
 
                     for (int i=0; i < namesWord.Length; i++)
                     {
-                        if (names[i] == names[i].ToUpper())
+                        if (namesWord[i] == namesWord[i].ToUpper())
                         {
-                            namesUpper[m] = names[i];
+                            namesUpper[m] = namesWord[i];
                             m++;
                         }
                     }
-                    string[] namesLower = new string[names.Length-UppesCount];
+                    string[] namesLower = new string[namesWord.Length-UppesCount];
                     int n = 0;
-                    for (int i = 0; i < names.Length; i++)
+                    for (int i = 0; i < namesWord.Length; i++)
                     {
-                        if (names[i] != names[i].ToUpper())
+                        if (names[i] != namesWord[i].ToUpper())
                         {
                            
-                            namesLower[n] = names[i];
+                            namesLower[n] = namesWord[i];
                             n++;
                         }
                     }
@@ -171,22 +198,14 @@ namespace Greeting
                         }
                         else
                         {
-                            
                             greet.Append(namesUpper[i]);
                             greet.Append(", ");
                         }
                     }
                     greet.Append("!");
                     return greet.ToString();
-
-
                 }
-                
-
             }
-
-
-
         }
     }
 }

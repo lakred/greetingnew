@@ -49,5 +49,11 @@ namespace Greeting.Test
             var result = _sut.Greet("Bob", "Charlie, Dianne");
             Assert.Equal("Hello, Bob, Charlie, and Dianne.", result);
         }
+        [Fact]
+        public void CsvGreet()
+        {
+            var result = _sut.Greet("Bob", "\"Charlie, Dianne\"");
+            Assert.Equal("Hello, Bob and Charlie, Dianne.", result);
+        }
     }
 }
